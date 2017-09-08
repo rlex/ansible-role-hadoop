@@ -1,0 +1,4 @@
+- include: hadoop.yml
+- include: hdfs.yml
+- include: yarn.yml
+- include: mapred.yml

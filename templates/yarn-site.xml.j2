@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>{{ hadoop_yarn_master }}</value>
+    </property>
+    <property>
+     <name>yarn.application.classpath</name>
+     <value>{{ hadoop_home }}/etc/hadoop:{{ hadoop_home }}/share/hadoop/common/lib/*:{{ hadoop_home }}/share/hadoop/common/*:{{ hadoop_home }}/share/hadoop/hdfs:{{ hadoop_home }}/share/hadoop/hdfs/lib/*:{{ hadoop_home }}/share/hadoop/hdfs/*:{{ hadoop_home }}/share/hadoop/mapreduce/*:{{ hadoop_home }}/share/hadoop/yarn:{{ hadoop_home }}/share/hadoop/yarn/lib/*:{{ hadoop_home }}/share/hadoop/yarn/*</value>
+    </property>
+{% if 'hadoop_yarn_nodemanager' %}
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+{% endif %}
+    <property>
+      <name>yarn.nodemanager.resource.cpu-vcores</name>
+      <value>{{ hadoop_yarn_nodemanager_resource_cpu_vcores }}</value>
+    </property>
+    <property>
+      <name>yarn.nodemanager.resource.memory-mb</name>
+      <value>{{ hadoop_yarn_nodemanager_resource_memory_mb }}</value>
+    </property>
+    <property>
+      <name>yarn.scheduler.minimum-allocation-mb</name>
+      <value>{{ hadoop_yarn_scheduler_maximum_allocation_mb }}</value>
+    </property>
+    <property>
+      <name>yarn.scheduler.maximum-allocation-mb</name>
+      <value>{{ hadoop_yarn_scheduler_maximum_allocation_mb }}</value>
+    </property>
+    <property>
+      <name>yarn.scheduler.minimum-allocation-vcores</name>
+      <value>{{ hadoop_yarn_scheduler_minimum_allocation_vcores}}</value>
+    </property>
+    <property>
+      <name>yarn.scheduler.maximum-allocation-vcores</name>
+      <value>{{ hadoop_yarn_nodemanager_resource_cpu_vcores }}</value>
+    </property>
+    <property>
+     <name>yarn.nodemanager.vmem-check-enabled</name>
+     <value>{{ hadoop_yarn_nodemanager_vmem_check_enabled | lower }}</value>
+     <description>Whether virtual memory limits will be enforced for containers</description>
+    </property>
+    <property>
+     <name>yarn.nodemanager.vmem-pmem-ratio</name>
+     <value>{{ hadoop_yarn_nodemanager_vmem_pmem_ratio }}</value>
+     <description>Ratio between virtual memory to physical memory when setting memory limits for containers</description>
+    </property>
+    <property>
+</configuration>

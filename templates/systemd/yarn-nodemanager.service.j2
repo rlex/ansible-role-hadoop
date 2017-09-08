@@ -1,0 +1,15 @@
+[Unit]
+Description=YARN NodeManager
+After=network.target
+
+[Service]
+Environment=HADOOP_HOME={{ hadoop_home }}
+WorkingDirectory={{ hadoop_home }}
+ExecStart={{ hadoop_home }}/bin/yarn nodemanager
+User={{ hadoop_user }}
+KillMode=process
+KillSignal=SIGINT
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

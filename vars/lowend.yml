@@ -1,0 +1,13 @@
+#This is _really_ low settings for yarn and hadoop
+#Suitable for 1$ VPSes and raspberry-like devices
+#https://dqydj.com/raspberry-pi-hadoop-cluster-apache-spark-yarn/
+hadoop_hdfs_blocksize: 1048576
+hadoop_heapsize: 250
+hadoop_yarn_nodemanager_resource_cpu_vcores: 4
+hadoop_yarn_nodemanager_resource_memory_mb: 1024
+hadoop_yarn_scheduler_minimum_allocation_mb: 128
+hadoop_yarn_scheduler_maximum_allocation_mb: 1024
+hadoop_yarn_scheduler_minimum_allocation_vcores: 1
+hadoop_yarn_scheduler_maximum_allocation_vcores: 4
+hadoop_yarn_nodemanager_vmem_check_enabled: false
+hadoop_yarn_nodemanager_vmem_pmem_ratio: 4

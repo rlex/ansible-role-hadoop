@@ -1,0 +1,60 @@
+- name: restart hdfs-namenode
+  service:
+    name: hdfs-namenode
+    state: restarted
+  when: hadoop_hdfs_namenode is defined and hadoop_hdfs_namenode
+
+- name: restart hdfs-secondarynamenode
+  service:
+    name: hdfs-secondarynamenode
+    state: restarted
+  when: hadoop_hdfs_secondarynamenode is defined and hadoop_hdfs_secondarynamenode
+
+- name: restart hdfs-datanode
+  service:
+    name: hdfs-datanode
+    state: restarted
+  when: hadoop_hdfs_datanode is defined and hadoop_hdfs_datanode
+
+- name: restart hdfs-nfs-portmap
+  service:
+    name: hdfs-nfs-portmap
+    state: restarted
+  when: hadoop_hdfs_nfs_gateway is defined and hadoop_hdfs_nfs_gateway
+
+- name: restart hdfs-nfs-gateway
+  service:
+    name: hdfs-nfs-gateway
+    state: restarted
+  when: hadoop_hdfs_nfs_gateway is defined and hadoop_hdfs_nfs_gateway
+
+- name: restart mapred-historyserver
+  service:
+    name: mapred-historyserver
+    state: restarted
+  when: hadoop_mapred_historyserver is defined and hadoop_mapred_historyserver
+
+- name: restart yarn-resourcemanager
+  service:
+    name: yarn-resourcemanager
+    state: restarted
+  when: hadoop_yarn_resourcemanager is defined and hadoop_yarn_resourcemanager
+
+- name: restart yarn-nodemanager
+  service:
+    name: yarn-nodemanager
+    state: restarted
+  when: hadoop_yarn_nodemanager is defined and hadoop_yarn_nodemanager
+
+- name: refresh hdfs-nodes
+  command: "{{ hadoop_home }}/bin/hdfs dfsadmin -refreshNodes"
+  when: hadoop_hdfs_namenode is defined and hadoop_hdfs_namenode
+
+- name: refresh yarn-nodes
+  command: "{{ hadoop_home }}/bin/yarn rmadmin -refreshNodes"
+  when: hadoop_yarn_resourcemanager is defined and hadoop_yarn_resourcemanager
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+  #command: systemctl daemon-reload

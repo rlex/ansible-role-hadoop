@@ -1,0 +1,29 @@
+---
+
+- name: create hdfs nfs portmap systemd service file
+  template:
+    src: systemd/hdfs-nfs-portmap.service.j2
+    dest: /etc/systemd/system/hdfs-nfs-portmap.service
+  notify:
+    - reload systemd
+    - restart hdfs-nfs-portmap
+
+- name: create hdfs nfs gateway systemd service file
+  template:
+    src: systemd/hdfs-nfs-gateway.service.j2
+    dest: /etc/systemd/system/hdfs-nfs-gateway.service
+  notify:
+    - reload systemd
+    - restart hdfs-nfs-gateway
+
+- name: start hdfs nfs gateway rpcbind
+  service:
+    name: hdfs-nfs-rpcbind
+    state: started
+    enabled: yes
+
+- name: start hdfs nfs gateway service
+  service:
+    name: hdfs-nfs-gateway
+    state: started
+    enabled: yes

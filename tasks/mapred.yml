@@ -1,0 +1,13 @@
+---
+
+- name: configure mapred
+  template:
+    src: 'mapred-site.xml.j2'
+    dest: '{{ hadoop_home }}/etc/hadoop/mapred-site.xml'
+    owner: '{{ hadoop_user }}'
+    group: '{{ hadoop_group }}'
+  notify:
+    - restart mapred-historyserver
+
+- include: historyserver.yml
+  when: hadoop_mapred_historyserver is defined and hadoop_mapred_historyserver

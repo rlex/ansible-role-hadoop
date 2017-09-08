@@ -1,0 +1,35 @@
+#Generic stuff
+hadoop_user: hadoop
+hadoop_user_home: /opt/hadoop
+hadoop_group: hadoop
+hadoop_version: 2.8.1
+hadoop_home: "{{ hadoop_user_home }}/hadoop-{{ hadoop_version }}"
+hadoop_keep_etc_hosts: no
+hadoop_java_package: openjdk-8-jre
+hadoop_java_home: /usr/lib/jvm/java-8-openjdk-amd64
+hadoop_heapsize: 1024
+hadoop_low_settings: false
+#HDFS settigns
+hadoop_hdfs_replication: 1
+hadoop_hdfs_namenode_name_dir: /var/lib/hdfs/name
+hadoop_hdfs_namenode_checkpoint_dir: /var/lib/hdfs/checkpoint
+hadoop_hdfs_datanode_data_dir: /var/lib/hdfs/data
+hadoop_hdfs_namenode_rpc_bind_host: 0.0.0.0
+hadoop_hdfs_namenode_servicerpc_bind_host: "{{ hadoop_hdfs_namenode_rpc_bind_host }}"
+hadoop_hdfs_namenode_http_bind_host: "{{ hadoop_hdfs_namenode_rpc_bind_host }}"
+hadoop_hdfs_namenode_ip_hostname_check: true
+hadoop_hdfs_blocksize: 134217728
+#YARN settings, defaults from yarn-default.xml
+hadoop_yarn_nodemanager_resource_cpu_vcores: 8
+hadoop_yarn_nodemanager_resource_memory_mb: 8192
+hadoop_yarn_scheduler_minimum_allocation_mb: 1024
+hadoop_yarn_scheduler_maximum_allocation_mb: 8192
+hadoop_yarn_scheduler_minimum_allocation_vcores: 1
+hadoop_yarn_scheduler_maximum_allocation_vcores: 32
+hadoop_yarn_nodemanager_vmem_check_enabled: true
+hadoop_yarn_nodemanager_vmem_pmem_ratio: 2.1
+#Hostnames and masters
+hadoop_master: localhost
+hadoop_hdfs_master: "{{ hadoop_masterserver }}"
+hadoop_yarn_master: "{{ hadoop_masterserver }}"
+hadoop_mapred_master: "{{ hadoop_masterserver }}"

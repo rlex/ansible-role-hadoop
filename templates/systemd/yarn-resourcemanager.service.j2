@@ -1,0 +1,15 @@
+[Unit]
+Description=YARN ResourceManager
+After=network.target
+
+[Service]
+Environment=HADOOP_HOME={{ hadoop_home }}
+WorkingDirectory={{ hadoop_home }}
+ExecStart={{ hadoop_home }}/bin/yarn resourcemanager
+User={{ hadoop_user }}
+KillMode=process
+KillSignal=SIGINT
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

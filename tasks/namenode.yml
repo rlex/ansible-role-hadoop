@@ -1,0 +1,29 @@
+---
+
+- name: create hdfs namenode data directory
+  file:
+    path: "{{ hadoop_hdfs_namenode_name_dir }}"
+    state: directory
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
+  register: create_hdfs_namenode_data_dir
+
+- name: format hdfs namenode data directory
+  command: '{{ hadoop_home }}/bin/hdfs namenode -format'
+  when: create_hdfs_namenode_data_dir|changed
+  become: yes
+  become_user: '{{ hadoop_user }}'
+
+- name: create hdfs namenode systemd service file
+  template:
+    src: systemd/hdfs-namenode.service.j2
+    dest: /etc/systemd/system/hdfs-namenode.service
+  notify:
+    - reload systemd
+    - restart hdfs-namenode
+
+- name: start hdfs namenode
+  service:
+    name: hdfs-namenode
+    state: started
+    enabled: yes

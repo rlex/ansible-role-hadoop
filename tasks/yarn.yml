@@ -1,0 +1,20 @@
+---
+
+- name: configure yarn
+  template:
+    src: 'yarn-site.xml.j2'
+    dest: '{{ hadoop_home }}/etc/hadoop/yarn-site.xml'
+    owner: '{{ hadoop_user }}'
+    group: '{{ hadoop_group }}'
+  tags:
+    - hadoop
+    - yarn
+  notify:
+    - restart yarn-resourcemanager
+    - restart yarn-nodemanager
+
+- include: resourcemanager.yml
+  when: hadoop_yarn_resourcemanager is defined and hadoop_yarn_resourcemanager
+
+- include: nodemanager.yml
+  when: hadoop_yarn_nodemanager is defined and hadoop_yarn_nodemanager

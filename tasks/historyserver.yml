@@ -1,0 +1,15 @@
+---
+
+- name: create mapred historyserver systemd service file
+  template:
+    src: systemd/mapred-historyserver.service.j2
+    dest: /etc/systemd/system/mapred-historyserver.service
+  notify:
+    - reload systemd
+    - restart mapred-historyserver
+
+- name: start mapred historyserver
+  service:
+    name: mapred-historyserver
+    state: started
+    enabled: yes

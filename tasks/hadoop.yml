@@ -1,0 +1,95 @@
+---
+
+- name: check if we operate in low-end mode
+  include_vars:
+    file: lowend.yml
+  when: hadoop_low_settings
+
+- name: install java
+  apt: name={{ hadoop_java_package }} state=present
+
+- name: remove 127.0.1.1 from /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    state: absent
+    regexp: ^127\.0\.1\.1\b
+  when: not hadoop_keep_etc_hosts
+
+- name: add hadoop group
+  group: name={{ hadoop_group }}
+
+- name: add hadoop user
+  user: name={{ hadoop_user}} group={{ hadoop_group }} home={{ hadoop_user_home }} shell=/bin/bash
+
+- name: download hadoop tarball
+  get_url:
+    url: 'http://apache.mirrors.spacedump.net/hadoop/common/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz'
+    dest: '{{ hadoop_user_home }}/hadoop-{{ hadoop_version }}.tar.gz'
+  become: yes
+  become_user: '{{ hadoop_user }}'
+
+- name: extract hadoop tarball
+  command: '/usr/bin/env tar xf hadoop-{{ hadoop_version }}.tar.gz'
+  args:
+    chdir: '{{ hadoop_user_home }}'
+    creates: '{{ hadoop_user_home }}/hadoop-{{ hadoop_version }}'
+  become: yes
+  become_user: '{{ hadoop_user }}'
+
+- name: set JAVA_HOME in .bashrc
+  lineinfile:
+    dest: '{{ hadoop_user_home }}/.bashrc'
+    line: 'export JAVA_HOME={{ hadoop_java_home }}'
+    regexp: '^(# *)?export JAVA_HOME='
+
+- name: set HADOOP_HOME in .bashrc
+  lineinfile:
+    dest: '{{ hadoop_user_home }}/.bashrc'
+    line: 'export HADOOP_HOME={{ hadoop_home }}'
+    regexp: '^(# *)?export HADOOP_HOME='
+
+- name: add PATH to HADOOP_HOME/bin in .bashrc
+  lineinfile:
+    dest: '{{ hadoop_user_home }}/.bashrc'
+    line: 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin # HADOOP-BIN-PATH'
+    regexp: '# HADOOP-BIN-PATH'
+
+- name: set JAVA_HOME in hadoop-env.sh
+  lineinfile:
+    dest: '{{ hadoop_home }}/etc/hadoop/hadoop-env.sh'
+    line: 'export JAVA_HOME={{ hadoop_java_home }}'
+    regexp: '^(# *)?export JAVA_HOME='
+
+# for some reason, it doesn't create it by default and throws error
+- name: create temporary hadoop folder
+  file:
+    path: /tmp/hadoop-{{ hadoop_user }}
+    state: directory
+    owner: '{{ hadoop_user }}'
+    group: '{{ hadoop_group }}'
+
+- name: create hadoop log directory
+  file:
+    path: /var/log/hadoop
+    state: directory
+    owner: '{{ hadoop_user }}'
+    group: '{{ hadoop_group }}'
+
+- name: set hadoop log directory in hadoop-env.sh
+  lineinfile:
+    dest: '{{ hadoop_home }}/etc/hadoop/hadoop-env.sh'
+    line: 'export HADOOP_LOG_DIR=/var/log/hadoop'
+    regexp: '^(# *)?export HADOOP_LOG_DIR='
+
+- name: set heap size in hadoop-env.sh
+  lineinfile:
+    dest: '{{ hadoop_home }}/etc/hadoop/hadoop-env.sh'
+    line: 'export HADOOP_HEAPSIZE={{ hadoop_heapsize }}'
+    regexp: '^(# *)?export HADOOP_HEAPSIZE='
+
+- name: configure hadoop
+  template:
+    src: 'core-site.xml.j2'
+    dest: '{{ hadoop_home }}/etc/hadoop/core-site.xml'
+    owner: '{{ hadoop_user }}'
+    group: '{{ hadoop_group }}'

@@ -1,0 +1,22 @@
+---
+
+- name: create hdfs datanode data directory
+  file:
+    path: "{{ hadoop_hdfs_datanode_data_dir }}"
+    state: directory
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
+
+- name: create hdfs datanode systemd service file
+  template:
+    src: systemd/hdfs-datanode.service.j2
+    dest: /etc/systemd/system/hdfs-datanode.service
+  notify:
+    - reload systemd
+    - restart hdfs-datanode
+
+- name: start hdfs datanode
+  service:
+    name: hdfs-datanode
+    state: started
+    enabled: yes

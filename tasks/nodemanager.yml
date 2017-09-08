@@ -1,0 +1,15 @@
+---
+
+- name: create yarn nodemanager systemd service file
+  template:
+    src: systemd/yarn-nodemanager.service.j2
+    dest: /etc/systemd/system/yarn-nodemanager.service
+
+- name: start yarn nodemanager
+  service:
+    name: yarn-nodemanager
+    state: started
+    enabled: yes
+  notify:
+    - reload systemd
+    - restart yarn-nodemanager

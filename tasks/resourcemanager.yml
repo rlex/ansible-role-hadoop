@@ -1,0 +1,15 @@
+---
+
+- name: create yarn resourcemanager systemd service file
+  template:
+    src: systemd/yarn-resourcemanager.service.j2
+    dest: /etc/systemd/system/yarn-resourcemanager.service
+  notify:
+    - reload systemd
+    - restart yarn-resourcemanager
+
+- name: start yarn resourcemanager
+  service:
+    name: yarn-resourcemanager
+    state: started
+    enabled: yes

@@ -1,0 +1,22 @@
+---
+
+- name: create hdfs secondarynamenode data directory
+  file:
+    path: "{{ hadoop_hdfs_namenode_checkpoint_dir }}"
+    state: directory
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
+
+- name: create hdfs secondarynamenode systemd service file
+  template:
+    src: systemd/hdfs-secondarynamenode.service.j2
+    dest: /etc/systemd/system/hdfs-secondarynamenode.service
+  notify:
+    - reload systemd
+    - restart hdfs-secondarynamenode
+
+- name: start hdfs secondarynamenode
+  service:
+    name: hdfs-secondarynamenode
+    state: started
+    enabled: yes
