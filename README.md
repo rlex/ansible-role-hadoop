@@ -1,8 +1,8 @@
 ##### Description
-This role is used by me for small hadoop cluster (mostly learning purposes)
-However with this role you can get simple hadoop cluster up and running in virtually no time
-This includes HDFS, MR and YARN, and can be installed in distributed mode on any amount of machines
-If you intend to use it for production... don't. Seriously, just dont.
+This role is used by me for small hadoop cluster (mostly learning purposes)  
+However with this role you can get simple hadoop cluster up and running in virtually no time  
+This includes HDFS, MR and YARN, and can be installed in distributed mode on any amount of machines  
+If you intend to use it for production... don't. Seriously, just dont.  
 Take a look at ambari/cdh/hortonworks instead.
 
 ##### Usage
@@ -17,14 +17,14 @@ hadoop_yarn_nodemanager: true
 hadoop_mapred_historyserver: true
 ```
 
-Also make sure to specify hadoop_master (where namenode and nodemanager is located).
+Also make sure to specify hadoop_master (where namenode and nodemanager is located).  
 If you have masters on separate machines, you can override them per-service:
 ```
 hadoop_hdfs_master: 127.0.0.1
 hadoop_yarn_master: 127.0.0.1
 hadoop_mapred_master: 127.0.0.1
 ```
-By default, those variables are aliased to hadoop_master
+By default, those variables are aliased to hadoop_master  
 Everything else is optional, you can see that params in defaults/main.yml
 
 ##### Low spec mode
