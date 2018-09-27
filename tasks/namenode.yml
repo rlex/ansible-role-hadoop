@@ -10,7 +10,7 @@
 
 - name: format hdfs namenode data directory
   command: '{{ hadoop_home }}/bin/hdfs namenode -format'
-  when: create_hdfs_namenode_data_dir|changed
+  when: create_hdfs_namenode_data_dir is changed
   become: yes
   become_user: '{{ hadoop_user }}'
 
