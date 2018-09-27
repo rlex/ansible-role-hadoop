@@ -29,7 +29,7 @@ hadoop_yarn_scheduler_maximum_allocation_vcores: 32
 hadoop_yarn_nodemanager_vmem_check_enabled: true
 hadoop_yarn_nodemanager_vmem_pmem_ratio: 2.1
 #Hostnames and masters
-hadoop_master: localhost
-hadoop_hdfs_master: "{{ hadoop_masterserver }}"
-hadoop_yarn_master: "{{ hadoop_masterserver }}"
-hadoop_mapred_master: "{{ hadoop_masterserver }}"
+hadoop_master_host: localhost
+hadoop_hdfs_master_host: "{{ hadoop_master_host }}"
+hadoop_yarn_master_host: "{{ hadoop_master_host }}"
+hadoop_mapred_master_host: "{{ hadoop_master_host }}"

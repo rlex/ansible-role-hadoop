@@ -17,14 +17,14 @@ hadoop_yarn_nodemanager: true
 hadoop_mapred_historyserver: true
 ```
 
-Also make sure to specify hadoop_master (where namenode and nodemanager is located).  
+Also make sure to specify hadoop_master_host (where namenode and nodemanager is located).
 If you have masters on separate machines, you can override them per-service:
 ```
-hadoop_hdfs_master: 127.0.0.1
-hadoop_yarn_master: 127.0.0.1
-hadoop_mapred_master: 127.0.0.1
+hadoop_hdfs_master_host: 127.0.0.1
+hadoop_yarn_master_host: 127.0.0.1
+hadoop_mapred_master_host: 127.0.0.1
 ```
-By default, those variables are aliased to hadoop_master  
+By default, those variables are aliased to hadoop_master
 Everything else is optional, you can see that params in defaults/main.yml
 
 ##### Low spec mode
