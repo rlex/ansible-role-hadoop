@@ -2,7 +2,8 @@
 hadoop_user: hadoop
 hadoop_user_home: /opt/hadoop
 hadoop_group: hadoop
-hadoop_version: 2.8.1
+hadoop_version: 3.1.1
+hadoop_checksum: sha512:0821685c2f77710f189cf6a37309cd6ba35b63432bae19f7b3db05fdbdd1d375d8333e47461d82762d5f7f4133c6b33216689a6403d7dff3f8f41dcbe5477030
 hadoop_home: "{{ hadoop_user_home }}/hadoop-{{ hadoop_version }}"
 hadoop_keep_etc_hosts: no
 hadoop_java_package: openjdk-8-jre

@@ -23,8 +23,9 @@
 
 - name: download hadoop tarball
   get_url:
-    url: 'http://apache.mirrors.spacedump.net/hadoop/common/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz'
+    url: 'https://www.apache.org/dyn/closer.cgi?action=download&filename=hadoop/common/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz'
     dest: '{{ hadoop_user_home }}/hadoop-{{ hadoop_version }}.tar.gz'
+    checksum: '{{ hadoop_checksum }}'
   become: yes
   become_user: '{{ hadoop_user }}'
 
