@@ -18,7 +18,7 @@
 
 - name: start hdfs nfs gateway rpcbind
   service:
-    name: hdfs-nfs-rpcbind
+    name: hdfs-nfs-portmap
     state: started
     enabled: yes
 
