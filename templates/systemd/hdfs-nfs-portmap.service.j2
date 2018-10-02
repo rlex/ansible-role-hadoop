@@ -6,7 +6,7 @@ After=network.target
 Environment=HADOOP_HOME={{ hadoop_home }}
 WorkingDirectory={{ hadoop_home }}
 ExecStart={{ hadoop_home }}/bin/hdfs portmap
-User={{ hadoop_user }}
+User=root
 KillMode=process
 KillSignal=SIGINT
 Restart=on-failure
