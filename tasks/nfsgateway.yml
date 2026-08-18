@@ -1,29 +1,30 @@
 ---
-
-- name: create hdfs nfs portmap systemd service file
-  template:
+- name: Create hdfs nfs portmap systemd service file
+  ansible.builtin.template:
+    mode: '0644'
     src: systemd/hdfs-nfs-portmap.service.j2
     dest: /etc/systemd/system/hdfs-nfs-portmap.service
   notify:
-    - reload systemd
-    - restart hdfs-nfs-portmap
+    - Reload systemd
+    - Restart hdfs-nfs-portmap
 
-- name: create hdfs nfs gateway systemd service file
-  template:
+- name: Create hdfs nfs gateway systemd service file
+  ansible.builtin.template:
+    mode: '0644'
     src: systemd/hdfs-nfs-gateway.service.j2
     dest: /etc/systemd/system/hdfs-nfs-gateway.service
   notify:
-    - reload systemd
-    - restart hdfs-nfs-gateway
+    - Reload systemd
+    - Restart hdfs-nfs-gateway
 
-- name: start hdfs nfs gateway rpcbind
-  service:
+- name: Start hdfs nfs gateway rpcbind
+  ansible.builtin.service:
     name: hdfs-nfs-portmap
     state: started
-    enabled: yes
+    enabled: true
 
-- name: start hdfs nfs gateway service
-  service:
+- name: Start hdfs nfs gateway service
+  ansible.builtin.service:
     name: hdfs-nfs-gateway
     state: started
-    enabled: yes
+    enabled: true

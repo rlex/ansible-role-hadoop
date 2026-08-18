@@ -1,60 +1,67 @@
-- name: restart hdfs-namenode
-  service:
+---
+- name: Restart hdfs-namenode
+  ansible.builtin.service:
     name: hdfs-namenode
     state: restarted
   when: hadoop_hdfs_namenode is defined and hadoop_hdfs_namenode
 
-- name: restart hdfs-secondarynamenode
-  service:
+- name: Restart hdfs-secondarynamenode
+  ansible.builtin.service:
     name: hdfs-secondarynamenode
     state: restarted
   when: hadoop_hdfs_secondarynamenode is defined and hadoop_hdfs_secondarynamenode
 
-- name: restart hdfs-datanode
-  service:
+- name: Restart hdfs-datanode
+  ansible.builtin.service:
     name: hdfs-datanode
     state: restarted
   when: hadoop_hdfs_datanode is defined and hadoop_hdfs_datanode
 
-- name: restart hdfs-nfs-portmap
-  service:
+- name: Restart hdfs-nfs-portmap
+  ansible.builtin.service:
     name: hdfs-nfs-portmap
     state: restarted
   when: hadoop_hdfs_nfs_gateway is defined and hadoop_hdfs_nfs_gateway
 
-- name: restart hdfs-nfs-gateway
-  service:
+- name: Restart hdfs-nfs-gateway
+  ansible.builtin.service:
     name: hdfs-nfs-gateway
     state: restarted
   when: hadoop_hdfs_nfs_gateway is defined and hadoop_hdfs_nfs_gateway
 
-- name: restart mapred-historyserver
-  service:
+- name: Restart mapred-historyserver
+  ansible.builtin.service:
     name: mapred-historyserver
     state: restarted
   when: hadoop_mapred_historyserver is defined and hadoop_mapred_historyserver
 
-- name: restart yarn-resourcemanager
-  service:
+- name: Restart yarn-resourcemanager
+  ansible.builtin.service:
     name: yarn-resourcemanager
     state: restarted
   when: hadoop_yarn_resourcemanager is defined and hadoop_yarn_resourcemanager
 
-- name: restart yarn-nodemanager
-  service:
+- name: Restart yarn-nodemanager
+  ansible.builtin.service:
     name: yarn-nodemanager
     state: restarted
   when: hadoop_yarn_nodemanager is defined and hadoop_yarn_nodemanager
 
-- name: refresh hdfs-nodes
-  command: "{{ hadoop_home }}/bin/hdfs dfsadmin -refreshNodes"
+- name: Refresh hdfs-nodes
+  ansible.builtin.command: "{{ hadoop_home }}/bin/hdfs dfsadmin -refreshNodes"
+  register: hadoop_refresh_hdfs_nodes
+  changed_when: hadoop_refresh_hdfs_nodes.rc == 0
+  failed_when: hadoop_refresh_hdfs_nodes.rc != 0
   when: hadoop_hdfs_namenode is defined and hadoop_hdfs_namenode
 
-- name: refresh yarn-nodes
-  command: "{{ hadoop_home }}/bin/yarn rmadmin -refreshNodes"
+- name: Refresh yarn-nodes
+  ansible.builtin.command: "{{ hadoop_home }}/bin/yarn rmadmin -refreshNodes"
+  register: hadoop_refresh_yarn_nodes
+  changed_when: hadoop_refresh_yarn_nodes.rc == 0
+  failed_when: hadoop_refresh_yarn_nodes.rc != 0
   when: hadoop_yarn_resourcemanager is defined and hadoop_yarn_resourcemanager
 
-- name: reload systemd
-  systemd:
-    daemon_reload: yes
-  #command: systemctl daemon-reload
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+  # command: systemctl daemon-reload

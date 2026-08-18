@@ -1,6 +1,7 @@
-#This is _really_ low settings for yarn and hadoop
-#Suitable for 1$ VPSes and raspberry-like devices
-#https://dqydj.com/raspberry-pi-hadoop-cluster-apache-spark-yarn/
+---
+# This is _really_ low settings for yarn and hadoop
+# Suitable for 1$ VPSes and raspberry-like devices
+# https://dqydj.com/raspberry-pi-hadoop-cluster-apache-spark-yarn/
 hadoop_hdfs_blocksize: 1048576
 hadoop_heapsize: 250
 hadoop_yarn_nodemanager_resource_cpu_vcores: 4

@@ -1,22 +1,23 @@
 ---
-
-- name: create hdfs secondarynamenode data directory
-  file:
+- name: Create hdfs secondarynamenode data directory
+  ansible.builtin.file:
+    mode: '0755'
     path: "{{ hadoop_hdfs_namenode_checkpoint_dir }}"
     state: directory
     owner: "{{ hadoop_user }}"
     group: "{{ hadoop_group }}"
 
-- name: create hdfs secondarynamenode systemd service file
-  template:
+- name: Create hdfs secondarynamenode systemd service file
+  ansible.builtin.template:
+    mode: '0644'
     src: systemd/hdfs-secondarynamenode.service.j2
     dest: /etc/systemd/system/hdfs-secondarynamenode.service
   notify:
-    - reload systemd
-    - restart hdfs-secondarynamenode
+    - Reload systemd
+    - Restart hdfs-secondarynamenode
 
-- name: start hdfs secondarynamenode
-  service:
+- name: Start hdfs secondarynamenode
+  ansible.builtin.service:
     name: hdfs-secondarynamenode
     state: started
-    enabled: yes
+    enabled: true

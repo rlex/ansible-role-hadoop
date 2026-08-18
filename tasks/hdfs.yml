@@ -1,22 +1,28 @@
-- name: configure hdfs
-  template:
-    src: 'hdfs-site.xml.j2'
-    dest: '{{ hadoop_home }}/etc/hadoop/hdfs-site.xml'
-    owner: '{{ hadoop_user }}'
-    group: '{{ hadoop_group }}'
+---
+- name: Configure hdfs
+  ansible.builtin.template:
+    mode: '0644'
+    src: "hdfs-site.xml.j2"
+    dest: "{{ hadoop_home }}/etc/hadoop/hdfs-site.xml"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
   tags:
     - hadoop
     - hdfs
   notify:
-    - restart hdfs-namenode
-    - restart hdfs-secondarynamenode
-    - restart hdfs-datanode
+    - Restart hdfs-namenode
+    - Restart hdfs-secondarynamenode
+    - Restart hdfs-datanode
 
-- include: namenode.yml
+- name: Include namenode.yml
+  ansible.builtin.import_tasks: namenode.yml
   when: hadoop_hdfs_namenode is defined and hadoop_hdfs_namenode
-- include: secondarynamenode.yml
+- name: Include secondarynamenode.yml
+  ansible.builtin.import_tasks: secondarynamenode.yml
   when: hadoop_hdfs_secondarynamenode is defined and hadoop_hdfs_secondarynamenode
-- include: datanode.yml
+- name: Include datanode.yml
+  ansible.builtin.import_tasks: datanode.yml
   when: hadoop_hdfs_datanode is defined and hadoop_hdfs_datanode
-- include: nfsgateway.yml
+- name: Include nfsgateway.yml
+  ansible.builtin.import_tasks: nfsgateway.yml
   when: hadoop_hdfs_nfs_gateway is defined and hadoop_hdfs_nfs_gateway

@@ -1,13 +1,14 @@
 ---
-
-- name: configure mapred
-  template:
-    src: 'mapred-site.xml.j2'
-    dest: '{{ hadoop_home }}/etc/hadoop/mapred-site.xml'
-    owner: '{{ hadoop_user }}'
-    group: '{{ hadoop_group }}'
+- name: Configure mapred
+  ansible.builtin.template:
+    mode: '0644'
+    src: "mapred-site.xml.j2"
+    dest: "{{ hadoop_home }}/etc/hadoop/mapred-site.xml"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
   notify:
-    - restart mapred-historyserver
+    - Restart mapred-historyserver
 
-- include: historyserver.yml
+- name: Include historyserver.yml
+  ansible.builtin.import_tasks: historyserver.yml
   when: hadoop_mapred_historyserver is defined and hadoop_mapred_historyserver

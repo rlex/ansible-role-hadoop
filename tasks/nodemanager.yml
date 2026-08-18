@@ -1,15 +1,15 @@
 ---
-
-- name: create yarn nodemanager systemd service file
-  template:
+- name: Create yarn nodemanager systemd service file
+  ansible.builtin.template:
+    mode: '0644'
     src: systemd/yarn-nodemanager.service.j2
     dest: /etc/systemd/system/yarn-nodemanager.service
 
-- name: start yarn nodemanager
-  service:
+- name: Start yarn nodemanager
+  ansible.builtin.service:
     name: yarn-nodemanager
     state: started
-    enabled: yes
+    enabled: true
   notify:
-    - reload systemd
-    - restart yarn-nodemanager
+    - Reload systemd
+    - Restart yarn-nodemanager
